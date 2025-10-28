@@ -56,7 +56,6 @@ def delete_author(author_id: int, db: Session = Depends(get_db)):
     return {"message": "Author deleted successfully"}
 
 
-
 @app.post("/book/", response_model=BookResponse)
 def create_book(book: BookCreate, db: Session = Depends(get_db)):
     author = db.query(Author).filter(Author.id == book.author_id).first()
