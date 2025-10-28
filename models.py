@@ -11,12 +11,13 @@ class Author(Base):
 
     books = relationship("Book", back_populates="author", cascade="all, delete")
 
+
 class Book(Base):
     __tablename__ = "book"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
     genre = Column(String)
-    author_id = Column(Integer, ForeignKey("authors.id", ondelete="CASCADE"), nullable=False)
+    author_id = Column(Integer, ForeignKey("author.id", ondelete="CASCADE"), nullable=False)
 
-    author = relationship("Author", back_populates="book")
+    author = relationship("Author", back_populates="books")
