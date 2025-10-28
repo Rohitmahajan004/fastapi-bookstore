@@ -7,17 +7,12 @@ from schemas import (
     BookCreate, BookUpdate, BookResponse
 )
 
-# Create all tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="📚 Bookstore API - FastAPI + PostgreSQL")
 
 
-# =====================================================
-#                     AUTHOR CRUD
-# =====================================================
-
-@app.post("/authors/", response_model=AuthorResponse)
+@app.post("/author/", response_model=AuthorResponse)
 def create_author(author: AuthorCreate, db: Session = Depends(get_db)):
     new_author = Author(**author.dict())
     db.add(new_author)
@@ -31,7 +26,7 @@ def get_authors(db: Session = Depends(get_db)):
     return db.query(Author).all()
 
 
-@app.get("/authors/{author_id}", response_model=AuthorResponse)
+@app.get("/author/{author_id}", response_model=AuthorResponse)
 def get_author(author_id: int, db: Session = Depends(get_db)):
     author = db.query(Author).filter(Author.id == author_id).first()
     if not author:
@@ -39,7 +34,7 @@ def get_author(author_id: int, db: Session = Depends(get_db)):
     return author
 
 
-@app.put("/authors/{author_id}", response_model=AuthorResponse)
+@app.put("/author/{author_id}", response_model=AuthorResponse)
 def update_author(author_id: int, author_data: AuthorUpdate, db: Session = Depends(get_db)):
     author = db.query(Author).filter(Author.id == author_id).first()
     if not author:
@@ -51,7 +46,7 @@ def update_author(author_id: int, author_data: AuthorUpdate, db: Session = Depen
     return author
 
 
-@app.delete("/authors/{author_id}")
+@app.delete("/author/{author_id}")
 def delete_author(author_id: int, db: Session = Depends(get_db)):
     author = db.query(Author).filter(Author.id == author_id).first()
     if not author:
@@ -61,11 +56,8 @@ def delete_author(author_id: int, db: Session = Depends(get_db)):
     return {"message": "Author deleted successfully"}
 
 
-# =====================================================
-#                     BOOK CRUD
-# =====================================================
 
-@app.post("/books/", response_model=BookResponse)
+@app.post("/book/", response_model=BookResponse)
 def create_book(book: BookCreate, db: Session = Depends(get_db)):
     author = db.query(Author).filter(Author.id == book.author_id).first()
     if not author:
@@ -83,7 +75,7 @@ def get_books(db: Session = Depends(get_db)):
     return db.query(Book).all()
 
 
-@app.get("/books/{book_id}", response_model=BookResponse)
+@app.get("/book/{book_id}", response_model=BookResponse)
 def get_book(book_id: int, db: Session = Depends(get_db)):
     book = db.query(Book).filter(Book.id == book_id).first()
     if not book:
@@ -91,7 +83,7 @@ def get_book(book_id: int, db: Session = Depends(get_db)):
     return book
 
 
-@app.put("/books/{book_id}", response_model=BookResponse)
+@app.put("/book/{book_id}", response_model=BookResponse)
 def update_book(book_id: int, book_data: BookUpdate, db: Session = Depends(get_db)):
     book = db.query(Book).filter(Book.id == book_id).first()
     if not book:
@@ -104,7 +96,7 @@ def update_book(book_id: int, book_data: BookUpdate, db: Session = Depends(get_d
     return book
 
 
-@app.delete("/books/{book_id}")
+@app.delete("/book/{book_id}")
 def delete_book(book_id: int, db: Session = Depends(get_db)):
     book = db.query(Book).filter(Book.id == book_id).first()
     if not book:
