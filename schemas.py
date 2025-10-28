@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-# -------- BOOK SCHEMAS --------
 class BookBase(BaseModel):
     title: str
     genre: Optional[str] = None
@@ -23,7 +22,6 @@ class BookResponse(BaseModel):
         orm_mode = True
 
 
-# -------- AUTHOR SCHEMAS --------
 class AuthorBase(BaseModel):
     name: str
     country: str
